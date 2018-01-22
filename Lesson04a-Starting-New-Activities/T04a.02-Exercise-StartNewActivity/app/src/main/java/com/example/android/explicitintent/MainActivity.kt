@@ -16,6 +16,7 @@
 package com.example.android.explicitintent
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -46,13 +47,17 @@ class MainActivity : AppCompatActivity() {
         mDoSomethingCoolButton!!.setOnClickListener {
             val context = this@MainActivity
 
-            // TODO (1) Store ChildActivity.class in a Class object called destinationActivity
+            // Completed TODO (1) Store ChildActivity.class in a Class object called destinationActivity
+            // sienatime: Note that even though ChildActivity is a Kotlin class now, Intent is a java class,
+            // and so requires the .java (ChildActivity::class is the Kotlin class).
+            // source: https://stackoverflow.com/questions/39462397/intents-in-kotlin
+            val destinationActivity = ChildActivity::class.java
 
-            // TODO (2) Create an Intent to start ChildActivity
+            // Completed TODO (2) Create an Intent to start ChildActivity
+            val intent = Intent(context, destinationActivity)
 
-            // TODO (3) Replace the Toast with code to start ChildActivity
-            val message = "Button clicked!\nTODO: Start a new Activity and pass some data."
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            // Completed TODO (3) Replace the Toast with code to start ChildActivity
+            startActivity(intent)
         }
     }
 }
