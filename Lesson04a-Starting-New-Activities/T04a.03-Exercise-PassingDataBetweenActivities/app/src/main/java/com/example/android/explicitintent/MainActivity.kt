@@ -44,15 +44,20 @@ class MainActivity : AppCompatActivity() {
 
         /* Setting an OnClickListener allows us to do something when this button is clicked. */
         mDoSomethingCoolButton!!.setOnClickListener {
-            // TODO (1) Retrieve the text from the EditText and store it in a variable
+            // Completed TODO (1) Retrieve the text from the EditText and store it in a variable
+            // sienatime: since mNameEntry might be null, we have to use the safe call operator (a ?)
             val context = this@MainActivity
+            // sienatime: without the toString, this was inserted as a CharSequence into the intent,
+            // which can only be removed with getCharSequenceExtra...
+            val userText = mNameEntry?.text.toString()
 
             /* This is the class that we want to start (and open) when the button is clicked. */
             val destinationActivity = ChildActivity::class.java
 
             val startChildActivityIntent = Intent(context, destinationActivity)
 
-            // TODO (2) Use the putExtra method to put the String from the EditText in the Intent
+            // Completed TODO (2) Use the putExtra method to put the String from the EditText in the Intent
+            startChildActivityIntent.putExtra(Intent.EXTRA_TEXT, userText)
             startActivity(startChildActivityIntent)
         }
     }
