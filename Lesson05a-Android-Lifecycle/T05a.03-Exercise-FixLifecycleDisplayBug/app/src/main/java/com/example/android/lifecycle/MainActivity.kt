@@ -1,43 +1,21 @@
-package com.example.android.lifecycle;
+package com.example.android.lifecycle
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.View
+import android.widget.TextView
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList
 
-    /*
-     * This tag will be used for logging. It is best practice to use the class's name using
-     * getSimpleName as that will greatly help to identify the location from which your logs are
-     * being posted.
-     */
-    private static final String TAG = MainActivity.class.getSimpleName();
-
-    /*
-     * This constant String will be used to store the content of the TextView used to display the
-     * list of callbacks. The reason we are storing the contents of the TextView is so that you can
-     * see the entire set of callbacks as they are called.
-     */
-    private static final String LIFECYCLE_CALLBACKS_TEXT_KEY = "callbacks";
-
-    /* Constant values for the names of each respective lifecycle callback */
-    private static final String ON_CREATE = "onCreate";
-    private static final String ON_START = "onStart";
-    private static final String ON_RESUME = "onResume";
-    private static final String ON_PAUSE = "onPause";
-    private static final String ON_STOP = "onStop";
-    private static final String ON_RESTART = "onRestart";
-    private static final String ON_DESTROY = "onDestroy";
-    private static final String ON_SAVE_INSTANCE_STATE = "onSaveInstanceState";
+class MainActivity : AppCompatActivity() {
 
     /*
      * This TextView will contain a running log of every lifecycle callback method called from this
      * Activity. This TextView can be reset to its default state by clicking the Button labeled
      * "Reset Log"
      */
-    private TextView mLifecycleDisplay;
+    private var mLifecycleDisplay: TextView? = null
 
     // TODO (1) Declare and instantiate a static ArrayList of Strings called mLifecycleCallbacks
 
@@ -49,12 +27,11 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param savedInstanceState The Activity's previously frozen state, if there was one.
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        mLifecycleDisplay = (TextView) findViewById(R.id.tv_lifecycle_events_display);
+        mLifecycleDisplay = findViewById(R.id.tv_lifecycle_events_display) as TextView
 
         /*
          * If savedInstanceState is not null, that means our Activity is not being started for the
@@ -65,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
          */
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(LIFECYCLE_CALLBACKS_TEXT_KEY)) {
-                String allPreviousLifecycleCallbacks = savedInstanceState
-                        .getString(LIFECYCLE_CALLBACKS_TEXT_KEY);
-                mLifecycleDisplay.setText(allPreviousLifecycleCallbacks);
+                val allPreviousLifecycleCallbacks = savedInstanceState
+                        .getString(LIFECYCLE_CALLBACKS_TEXT_KEY)
+                mLifecycleDisplay!!.text = allPreviousLifecycleCallbacks
             }
         }
 
@@ -75,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO (5) Clear mLifecycleCallbacks after iterating through it
 
-        logAndAppend(ON_CREATE);
+        logAndAppend(ON_CREATE)
     }
 
     /**
@@ -84,11 +61,10 @@ public class MainActivity extends AppCompatActivity {
      * Followed by onResume() if the activity comes to the foreground, or onStop() if it becomes
      * hidden.
      */
-    @Override
-    protected void onStart() {
-        super.onStart();
+    override fun onStart() {
+        super.onStart()
 
-        logAndAppend(ON_START);
+        logAndAppend(ON_START)
     }
 
     /**
@@ -97,11 +73,10 @@ public class MainActivity extends AppCompatActivity {
      *
      * Always followed by onPause().
      */
-    @Override
-    protected void onResume() {
-        super.onResume();
+    override fun onResume() {
+        super.onResume()
 
-        logAndAppend(ON_RESUME);
+        logAndAppend(ON_RESUME)
     }
 
     /**
@@ -113,11 +88,10 @@ public class MainActivity extends AppCompatActivity {
      * Followed by either onResume() if the activity returns back to the front, or onStop() if it
      * becomes invisible to the user.
      */
-    @Override
-    protected void onPause() {
-        super.onPause();
+    override fun onPause() {
+        super.onPause()
 
-        logAndAppend(ON_PAUSE);
+        logAndAppend(ON_PAUSE)
     }
 
     /**
@@ -129,13 +103,12 @@ public class MainActivity extends AppCompatActivity {
      * Followed by either onRestart() if this activity is coming back to interact with the user, or
      * onDestroy() if this activity is going away.
      */
-    @Override
-    protected void onStop() {
-        super.onStop();
+    override fun onStop() {
+        super.onStop()
 
         // TODO (2) Add the ON_STOP String to the front of mLifecycleCallbacks
 
-        logAndAppend(ON_STOP);
+        logAndAppend(ON_STOP)
     }
 
     /**
@@ -143,34 +116,31 @@ public class MainActivity extends AppCompatActivity {
      *
      * Always followed by onStart()
      */
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+    override fun onRestart() {
+        super.onRestart()
 
-        logAndAppend(ON_RESTART);
+        logAndAppend(ON_RESTART)
     }
-    
+
     /**
      * The final call you receive before your activity is destroyed. This can happen either because
      * the activity is finishing (someone called finish() on it, or because the system is
      * temporarily destroying this instance of the activity to save space. You can distinguish
      * between these two scenarios with the isFinishing() method.
      */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    override fun onDestroy() {
+        super.onDestroy()
 
         // TODO (3) Add the ON_DESTROY String to the front of mLifecycleCallbacks
 
-        logAndAppend(ON_DESTROY);
+        logAndAppend(ON_DESTROY)
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        logAndAppend(ON_SAVE_INSTANCE_STATE);
-        String lifecycleDisplayTextViewContents = mLifecycleDisplay.getText().toString();
-        outState.putString(LIFECYCLE_CALLBACKS_TEXT_KEY, lifecycleDisplayTextViewContents);
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        logAndAppend(ON_SAVE_INSTANCE_STATE)
+        val lifecycleDisplayTextViewContents = mLifecycleDisplay!!.text.toString()
+        outState.putString(LIFECYCLE_CALLBACKS_TEXT_KEY, lifecycleDisplayTextViewContents)
     }
 
     /**
@@ -180,10 +150,10 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param lifecycleEvent The name of the event to be logged.
      */
-    private void logAndAppend(String lifecycleEvent) {
-        Log.d(TAG, "Lifecycle Event: " + lifecycleEvent);
+    private fun logAndAppend(lifecycleEvent: String) {
+        Log.d(TAG, "Lifecycle Event: " + lifecycleEvent)
 
-        mLifecycleDisplay.append(lifecycleEvent + "\n");
+        mLifecycleDisplay!!.append(lifecycleEvent + "\n")
     }
 
     /**
@@ -191,7 +161,34 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param view The View that was clicked. In this case, it is the Button from our layout.
      */
-    public void resetLifecycleDisplay(View view) {
-        mLifecycleDisplay.setText("Lifecycle callbacks:\n");
+    fun resetLifecycleDisplay(view: View) {
+        mLifecycleDisplay!!.text = "Lifecycle callbacks:\n"
+    }
+
+    companion object {
+
+        /*
+     * This tag will be used for logging. It is best practice to use the class's name using
+     * getSimpleName as that will greatly help to identify the location from which your logs are
+     * being posted.
+     */
+        private val TAG = MainActivity::class.java.getSimpleName()
+
+        /*
+     * This constant String will be used to store the content of the TextView used to display the
+     * list of callbacks. The reason we are storing the contents of the TextView is so that you can
+     * see the entire set of callbacks as they are called.
+     */
+        private val LIFECYCLE_CALLBACKS_TEXT_KEY = "callbacks"
+
+        /* Constant values for the names of each respective lifecycle callback */
+        private val ON_CREATE = "onCreate"
+        private val ON_START = "onStart"
+        private val ON_RESUME = "onResume"
+        private val ON_PAUSE = "onPause"
+        private val ON_STOP = "onStop"
+        private val ON_RESTART = "onRestart"
+        private val ON_DESTROY = "onDestroy"
+        private val ON_SAVE_INSTANCE_STATE = "onSaveInstanceState"
     }
 }
