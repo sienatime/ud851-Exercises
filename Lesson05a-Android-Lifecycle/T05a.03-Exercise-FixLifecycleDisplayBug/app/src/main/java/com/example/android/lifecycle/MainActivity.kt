@@ -17,8 +17,6 @@ class MainActivity : AppCompatActivity() {
      */
     private var mLifecycleDisplay: TextView? = null
 
-    // TODO (1) Declare and instantiate a static ArrayList of Strings called mLifecycleCallbacks
-
     /**
      * Called when the activity is first created. This is where you should do all of your normal
      * static set up: create views, bind data to lists, etc.
@@ -48,9 +46,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // TODO (4) Iterate backwards through mLifecycleCallbacks, appending each String and a newline to mLifecycleDisplay
+        // Completed TODO (4) Iterate backwards through mLifecycleCallbacks, appending each String and a newline to mLifecycleDisplay
+        mLifecycleCallbacks.reversed().forEach { callback -> mLifecycleDisplay!!.append("${callback}\n")  }
 
-        // TODO (5) Clear mLifecycleCallbacks after iterating through it
+        // Completed TODO (5) Clear mLifecycleCallbacks after iterating through it
+        mLifecycleCallbacks = arrayOf()
 
         logAndAppend(ON_CREATE)
     }
@@ -106,7 +106,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
 
-        // TODO (2) Add the ON_STOP String to the front of mLifecycleCallbacks
+        // Completed TODO (2) Add the ON_STOP String to the front of mLifecycleCallbacks
+        mLifecycleCallbacks = arrayOf(ON_STOP) + mLifecycleCallbacks
 
         logAndAppend(ON_STOP)
     }
@@ -131,7 +132,8 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        // TODO (3) Add the ON_DESTROY String to the front of mLifecycleCallbacks
+        // Completed TODO (3) Add the ON_DESTROY String to the front of mLifecycleCallbacks
+        mLifecycleCallbacks = arrayOf(ON_DESTROY) + mLifecycleCallbacks
 
         logAndAppend(ON_DESTROY)
     }
@@ -190,5 +192,9 @@ class MainActivity : AppCompatActivity() {
         private val ON_RESTART = "onRestart"
         private val ON_DESTROY = "onDestroy"
         private val ON_SAVE_INSTANCE_STATE = "onSaveInstanceState"
+
+        // Completed TODO (1) Declare and instantiate a static ArrayList of Strings called mLifecycleCallbacks
+
+        private var mLifecycleCallbacks = arrayOf<String>()
     }
 }
