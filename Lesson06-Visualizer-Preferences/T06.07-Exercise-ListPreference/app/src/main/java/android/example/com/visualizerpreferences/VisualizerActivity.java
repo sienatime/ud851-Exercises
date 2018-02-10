@@ -48,8 +48,15 @@ public class VisualizerActivity extends AppCompatActivity implements SharedPrefe
         setupPermissions();
     }
 
-    // TODO (4) Update setupSharedPreferences and onSharedPreferenceChanged to load the color
-    // from shared preferences. Call setColor, passing in the color you got
+    private void setColorFromPrefs(SharedPreferences sharedPreferences) {
+        mVisualizerView.setColor(
+                sharedPreferences.getString(
+                        getString(R.string.pref_color),
+                        getString(R.string.pref_color_red_value)
+                )
+        );
+    }
+
     private void setupSharedPreferences() {
         // Get all of the values from shared preferences to set it up
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -60,7 +67,7 @@ public class VisualizerActivity extends AppCompatActivity implements SharedPrefe
         mVisualizerView.setShowTreble(sharedPreferences.getBoolean(getString(R.string.pref_show_treble_key),
                 getResources().getBoolean(R.bool.pref_show_treble_default)));
         mVisualizerView.setMinSizeScale(1);
-        mVisualizerView.setColor(getString(R.string.pref_color_red_value));
+        setColorFromPrefs(sharedPreferences);
         // Register the listener
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
@@ -73,6 +80,8 @@ public class VisualizerActivity extends AppCompatActivity implements SharedPrefe
             mVisualizerView.setShowMid(sharedPreferences.getBoolean(key, getResources().getBoolean(R.bool.pref_show_mid_range_default)));
         } else if (key.equals(getString(R.string.pref_show_treble_key))) {
             mVisualizerView.setShowTreble(sharedPreferences.getBoolean(key, getResources().getBoolean(R.bool.pref_show_treble_default)));
+        } else if (key.equals(getString(R.string.pref_color))) {
+            setColorFromPrefs(sharedPreferences);
         }
     }
 
