@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -66,19 +67,19 @@ class MainActivity : AppCompatActivity() {
         // Link the adapter to the RecyclerView
         waitlistRecyclerView.adapter = mAdapter
 
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT, ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
 
-        //TODO (3) Create a new ItemTouchHelper with a SimpleCallback that handles both LEFT and RIGHT swipe directions
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val id = viewHolder.itemView.tag.toString().toLong()
+                removeGuest(id);
+                mAdapter!!.swapCursor(allGuests);
+            }
+        })
 
-        // TODO (4) Override onMove and simply return false inside
-
-        // TODO (5) Override onSwiped
-
-        // TODO (8) Inside, get the viewHolder's itemView's tag and store in a long variable id
-        // TODO (9) call removeGuest and pass through that id
-        // TODO (10) call swapCursor on mAdapter passing in getAllGuests() as the argument
-
-        //TODO (11) attach the ItemTouchHelper to the waitlistRecyclerView
-
+        itemTouchHelper.attachToRecyclerView(waitlistRecyclerView);
     }
 
     /**
@@ -130,9 +131,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // TODO (1) Create a new function called removeGuest that takes long id as input and returns a boolean
-
-    // TODO (2) Inside, call mDb.delete to pass in the TABLE_NAME and the condition that WaitlistEntry._ID equals id
-
+    private fun removeGuest(id: Long): Boolean {
+        return mDb!!.delete(
+                WaitlistContract.WaitlistEntry.TABLE_NAME,
+                "${BaseColumns._ID} = ${id}",
+                null
+        ) > 0;
+    }
 
 }
