@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView mWord;
     private TextView mDefinition;
 
+    private int wordCol;
+    private int definitionCol;
+
     // This state is when the word definition is hidden and clicking the button will therefore
     // show the definition
     private final int STATE_HIDDEN = 0;
@@ -87,22 +90,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextWord() {
-
-        // Change button text
-        mButton.setText(getString(R.string.show_definition));
-
         if (mData != null) {
             mCurrentState = STATE_HIDDEN;
             mDefinition.setVisibility(View.INVISIBLE);
-            if (mData.getCount() - 1 == mData.getPosition()) {
+            if (!mData.moveToNext()) {
                 mData.moveToFirst();
-            } else {
-                mData.moveToNext();
             }
-            int wordCol = mData.getColumnIndex(DroidTermsExampleContract.COLUMN_WORD);
-            int definitionCol = mData.getColumnIndex(DroidTermsExampleContract.COLUMN_DEFINITION);
             mWord.setText(mData.getString(wordCol));
             mDefinition.setText(mData.getString(definitionCol));
+
+            // Change button text
+            mButton.setText(getString(R.string.show_definition));
         }
     }
 
@@ -148,14 +146,10 @@ public class MainActivity extends AppCompatActivity {
             // Set the data for MainActivity
             mData = cursor;
 
-            int wordCol = cursor.getColumnIndex(DroidTermsExampleContract.COLUMN_WORD);
-            int definitionCol = cursor.getColumnIndex(DroidTermsExampleContract.COLUMN_DEFINITION);
-            cursor.moveToNext();
-            mWord.setText(cursor.getString(wordCol));
-            mDefinition.setText(cursor.getString(definitionCol));
-            mDefinition.setVisibility(View.INVISIBLE);
-            mCurrentState = STATE_HIDDEN;
+            wordCol = cursor.getColumnIndex(DroidTermsExampleContract.COLUMN_WORD);
+            definitionCol = cursor.getColumnIndex(DroidTermsExampleContract.COLUMN_DEFINITION);
 
+            nextWord();
         }
     }
 }
