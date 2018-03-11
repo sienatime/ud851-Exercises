@@ -10,6 +10,9 @@
     <string name="default_water_count">0</string>
     <string name="default_charge_notification_count">Hydrate while charging reminder sent 0 times</string>
 
+    <string name="drank_water">I did it!</string>
+    <string name="dismiss_notification">No, Thanks</string>
+
     <plurals name="charge_notification_count">
         <item quantity="zero">Hydrate while charging reminder sent %d times</item>
         <item quantity="one">Hydrate while charging reminder sent %d time</item>
