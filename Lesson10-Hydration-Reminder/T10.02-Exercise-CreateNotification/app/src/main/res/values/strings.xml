@@ -9,6 +9,7 @@
 
     <string name="default_water_count">0</string>
     <string name="default_charge_notification_count">Hydrate while charging reminder sent 0 times</string>
+    <string name="main_notification_channel_name">Hydrate App</string>
 
     <plurals name="charge_notification_count">
         <item quantity="zero">Hydrate while charging reminder sent %d times</item>
